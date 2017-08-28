@@ -5,15 +5,17 @@ const {
   GraphQLString
 } = require('graphql');
 
-const { fromSnakeCase } = require('../../lib/util');
-
 module.exports = new GraphQLObjectType({
   name : "MeType",
   fields : {
     id : { type : GraphQLID },
-    firstName : fromSnakeCase(GraphQLString),
-    lastName : fromSnakeCase(GraphQLString),
-    createdAt : fromSnakeCase(GraphQLString),
+    firstName : { type : GraphQLString },
+    lastName : { type : GraphQLString },
+    fullName : {
+      type : GraphQLString,
+      resolve : obj => `${obj.firstName} ${obj.lastName}`
+    },
+    createdAt : { type : GraphQLString },
     email : { type : new GraphQLNonNull(GraphQLString) }
   }
 });
